@@ -1,27 +1,39 @@
-import React, {useContext} from 'react';
-import {observer} from 'mobx-react-lite'
-import {Context} from '../index'
-import {ListGroup} from 'react-bootstrap/ListGroup'
-import Row from 'react-bootstrap/Row'
-import Card from 'react-bootstrap/Card'
+import React, { useContext, useMemo } from 'react';
+import { observer } from "mobx-react-lite";
+import { Context } from "../index";
+import { Card, Row } from "react-bootstrap";
 
+const BrandBar = observer(() => {
+    const { device } = useContext(Context);
 
-const BrandBar = observer(() =>{
-  const {device} = useContext(Context)
-  return(
-    <Row style = {{display: 'flex'}}>
-    {device.brands.map(brand =>
-      <Card
-      key = {brand.id}
-      style = {{padding: 10, width: 100, textAlign: 'center', cursor: 'pointer'}}
-      onClick = {() => device.setSelectedBrand(brand)}
-      border = {brand.id === device.selectedBrand.id ? 'danger' : 'light'}
-      >
-      {brand.name}
-      </Card>
-    )}
-    </Row>
-  );
+    const handleBrandClick = (brand) => {
+        device.setSelectedBrand(brand);
+    };
+
+    const renderBrands = useMemo(() => {
+        return device.brands.map(brand => (
+            <Card
+                key={brand.id}
+                className="p-3 brand-card"
+                onClick={() => handleBrandClick(brand)}
+                style={{
+                    cursor: 'pointer',
+                    border: brand.id === device.selectedBrand.id ? '2px solid red' : '2px solid transparent'
+                }}
+            >
+                {brand.name}
+            </Card>
+        ));
+    }, [device.brands, device.selectedBrand.id]);
+
+    return (
+        <div>
+            <h5>Виберіть бренд пристрою:</h5>
+            <Row className="d-flex">
+                {renderBrands}
+            </Row>
+        </div>
+    );
 });
 
 export default BrandBar;

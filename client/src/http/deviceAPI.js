@@ -1,38 +1,39 @@
-import {$authHost, $host} from "./index";
+import { $authHost, $host } from "./index";
+
+const handleRequest = async (request) => {
+    try {
+        const response = await request;
+        return response.data;
+    } catch (error) {
+        console.error("API request error:", error);
+        throw error;
+    }
+};
 
 export const createType = async (type) => {
-    const {data} = await $authHost.post('api/type', type)
-    return data
-}
+    return handleRequest($authHost.post('api/type', type));
+};
 
 export const fetchTypes = async () => {
-    const {data} = await $host.get('api/type')
-    return data
-}
+    return handleRequest($host.get('api/type'));
+};
 
 export const createBrand = async (brand) => {
-    const {data} = await $authHost.post('api/brand', brand)
-    return data
-}
+    return handleRequest($authHost.post('api/brand', brand));
+};
 
 export const fetchBrands = async () => {
-    const {data} = await $host.get('api/brand')
-    return data
-}
+    return handleRequest($host.get('api/brand'));
+};
 
 export const createDevice = async (device) => {
-    const {data} = await $authHost.post('api/device', device)
-    return data
-}
+    return handleRequest($authHost.post('api/device', device));
+};
 
-export const fetchDevices = async (typeId, brandId, page, limit= 5) => {
-    const {data} = await $host.get('api/device', {params: {
-            typeId, brandId, page, limit
-        }})
-    return data
-}
+export const fetchDevices = async (typeId, brandId, page, limit = 5) => {
+    return handleRequest($host.get('api/device', { params: { typeId, brandId, page, limit } }));
+};
 
 export const fetchOneDevice = async (id) => {
-    const {data} = await $host.get('api/device/' + id)
-    return data
-}
+    return handleRequest($host.get(`api/device/${id}`));
+};
