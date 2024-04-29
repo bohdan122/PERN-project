@@ -23,23 +23,24 @@ const CreateBrand = ({ show, onHide }) => {
             onHide={onHide}
             centered
         >
-            <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
-                    Додати бренд
-                </Modal.Title>
+            <Modal.Header>
+                <Modal.Title style={{color: "#333", fontWeight: "bold"}}>Додати новий бренд</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Control
-                        value={value}
-                        onChange={handleChange}
-                        placeholder={"Введіть назву бренду"}
-                    />
+                    <Form.Group>
+                        <Form.Label>Назва бренду</Form.Label>
+                        <Form.Control
+                            value={value}
+                            onChange={handleChange}
+                            placeholder="Введіть назву бренду"
+                        />
+                    </Form.Group>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="outline-danger" onClick={onHide}>Закрити</Button>
-                <Button variant="outline-success" onClick={addBrand}>Додати</Button>
+                <Button variant="secondary" onClick={onHide}>Відмінити</Button>
+                <Button variant="primary" onClick={addBrand} disabled={!value}>Додати</Button>
             </Modal.Footer>
         </Modal>
     );

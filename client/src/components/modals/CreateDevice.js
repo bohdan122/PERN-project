@@ -50,10 +50,8 @@ const CreateDevice = observer(({ show, onHide }) => {
             onHide={onHide}
             centered
         >
-            <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
-                    Додати пристрій
-                </Modal.Title>
+            <Modal.Header>
+                <Modal.Title>Додати пристрій</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
@@ -91,7 +89,12 @@ const CreateDevice = observer(({ show, onHide }) => {
                     />
                     <Form.Control
                         value={price}
-                        onChange={e => setPrice(Number(e.target.value))}
+                        onChange={e => {
+                            const inputPrice = Number(e.target.value);
+                            if (inputPrice >= 0) {
+                                setPrice(inputPrice);
+                            }
+                        }}
                         className="mt-3"
                         placeholder="Введіть ціну пристрою"
                         type="number"
@@ -124,7 +127,7 @@ const CreateDevice = observer(({ show, onHide }) => {
                                     placeholder="Введіть опис властивості"
                                 />
                             </Col>
-                            <Col md={4}>
+                            <Col md={4} className="d-flex align-items-center">
                                 <Button
                                     onClick={() => removeInfo(i.number)}
                                     variant={"outline-danger"}
@@ -137,8 +140,8 @@ const CreateDevice = observer(({ show, onHide }) => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="outline-danger" onClick={onHide}>Закрити</Button>
-                <Button variant="outline-success" onClick={addDevice}>Додати</Button>
+            <Button variant="secondary" onClick={onHide}>Відмінити</Button>
+                <Button variant="primary" onClick={addDevice} disabled={price <= 0}>Додати</Button>
             </Modal.Footer>
         </Modal>
     );
